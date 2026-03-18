@@ -312,7 +312,8 @@
   // startLat/startLng = diaspora city, endLat/endLng = Caracas
   // arcColor goes gold (start) -> red (end) matching the visual direction
   // -------------------------------------------------------------------------
-  var arcData = diasporaCities.filter(function (c) { return c.pop >= 5000; }).map(function (c) {
+  // EVERY diaspora city sends energy home -- no population filter
+  var arcData = diasporaCities.map(function (c) {
     return {
       startLat: c.lat,
       startLng: c.lng,
@@ -394,12 +395,23 @@
 
     // -- Arcs layer (gold -> red dashed arcs FROM diaspora TO Caracas) --
     .arcsData(arcData)
-    .arcColor(function () { return ['#F4C43088', '#CF142B88']; })
-    .arcAltitude(function () { return 0.1 + Math.random() * 0.3; })
-    .arcStroke(function (d) { return 0.5 + (d.pop / maxPop) * 1.2; })
+    .arcColor(function (d) {
+      // Brighter arcs for bigger cities, dimmer for small ones
+      var alpha = Math.max(0.15, Math.min(0.7, d.pop / maxPop * 2));
+      var hexAlpha = Math.round(alpha * 255).toString(16).padStart(2, '0');
+      return ['#F4C430' + hexAlpha, '#CF142B' + hexAlpha];
+    })
+    .arcAltitude(function (d) {
+      // Higher arcs for farther cities
+      return 0.05 + Math.min(0.4, d.pop / maxPop * 0.5) + Math.random() * 0.1;
+    })
+    .arcStroke(function (d) {
+      // Thicker for major hubs, thin whiskers for lonely lights
+      return 0.15 + (d.pop / maxPop) * 1.0;
+    })
     .arcDashLength(0.4)
-    .arcDashGap(0.2)
-    .arcDashAnimateTime(function () { return 1500 + Math.random() * 1500; })
+    .arcDashGap(0.15)
+    .arcDashAnimateTime(function () { return 1200 + Math.random() * 2000; })
 
     // -- Rings at Caracas (pulsing home marker) --
     .ringsData([{ lat: CARACAS.lat, lng: CARACAS.lng }])
@@ -467,16 +479,17 @@
   });
 
   // -------------------------------------------------------------------------
-  // Initial camera -- close on Caracas
+  // Initial camera -- zoomed tight on Venezuela (user sees this first)
   // -------------------------------------------------------------------------
-  globe.pointOfView({ lat: CARACAS.lat, lng: CARACAS.lng, altitude: 0.5 }, 0);
+  var MIAMI = { lat: 25.762, lng: -80.192 };
+  globe.pointOfView({ lat: CARACAS.lat, lng: CARACAS.lng, altitude: 0.4 }, 0);
 
   // -------------------------------------------------------------------------
   // OrbitControls configuration
   // -------------------------------------------------------------------------
   var controls = globe.controls();
-  controls.autoRotate = true;
-  controls.autoRotateSpeed = 0.4;
+  controls.autoRotate = false; // disabled until cinematic sequence finishes
+  controls.autoRotateSpeed = 0.3;
   controls.enableZoom = true;
   controls.minDistance = 150;
   controls.maxDistance = 500;
@@ -498,10 +511,62 @@
   window.addEventListener('resize', handleResize);
 
   // -------------------------------------------------------------------------
-  // Set a nice wide view centered on the Americas with Venezuela visible
-  // Auto-rotate handles the cinematic feel without scroll pinning
+  // CINEMATIC CAMERA SEQUENCE (triggered when globe scrolls into view)
+  // Shot 1: Tight on Venezuela (already set above)
+  // Shot 2: Pan north to Miami (the stadium, ground zero)
+  // Shot 3: Pull back to see all of Americas
+  // Shot 4: Rotate to show Europe + Africa
+  // Shot 5: Full globe view, enable auto-rotate
   // -------------------------------------------------------------------------
-  globe.pointOfView({ lat: 15, lng: -55, altitude: 2.2 }, 2000);
+  var cinematicDone = false;
+
+  function startCinematicSequence() {
+    if (cinematicDone) return;
+    cinematicDone = true;
+
+    // Shot 1: Hold on Venezuela for 1.5s (already there)
+    setTimeout(function () {
+      // Shot 2: Pan to Miami (2s transition)
+      globe.pointOfView({ lat: MIAMI.lat, lng: MIAMI.lng, altitude: 0.8 }, 2000);
+    }, 1500);
+
+    setTimeout(function () {
+      // Shot 3: Pull back to see Americas (2.5s transition)
+      globe.pointOfView({ lat: 20, lng: -75, altitude: 1.8 }, 2500);
+    }, 4000);
+
+    setTimeout(function () {
+      // Shot 4: Rotate to show Europe + Africa (3s transition)
+      globe.pointOfView({ lat: 30, lng: -10, altitude: 2.2 }, 3000);
+    }, 7000);
+
+    setTimeout(function () {
+      // Shot 5: Settle on wide Atlantic view, enable auto-rotate
+      globe.pointOfView({ lat: 20, lng: -40, altitude: 2.5 }, 2500);
+    }, 10500);
+
+    setTimeout(function () {
+      // Enable auto-rotate after sequence completes
+      controls.autoRotate = true;
+    }, 13500);
+  }
+
+  // Trigger cinematic sequence when globe section scrolls into view
+  var globeSection = document.getElementById('diaspora') || container.closest('section');
+  if (globeSection && typeof IntersectionObserver !== 'undefined') {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          startCinematicSequence();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    observer.observe(globeSection);
+  } else {
+    // Fallback: start after 2s if no IntersectionObserver
+    setTimeout(startCinematicSequence, 2000);
+  }
 
   // -------------------------------------------------------------------------
   // Counter animation (scroll into view -> 0 to 7,700,000)
