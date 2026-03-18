@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAMPEONES — Venezuela WBC 2026 World Champions</title>
+  <meta name="description" content="Venezuela wins the 2026 World Baseball Classic 3-2 over the USA. World Champions for the first time. A bilingual tribute to a generation's triumph.">
+  <meta property="og:title" content="CAMPEONES — Venezuela WBC 2026 World Champions">
+  <meta property="og:description" content="Venezuela 3 - USA 2. Campeones del Mundo. World Champions.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#07070f">
+
+  <link rel="stylesheet" href="css/globals.css">
+
+  <!-- Three.js (standalone for particles + shared use) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <!-- globe.gl (uses its own bundled Three.js internally) -->
+  <script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
+
+  <style>
+    /* === Acuña flag background for El Lineup header === */
+    .lineup-header-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+    .lineup-header-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('images/acuna.jpeg');
+      background-size: cover;
+      background-position: center 30%;
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+      mask-image: radial-gradient(ellipse 80% 70% at center, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 70% at center, black 30%, transparent 80%);
+      filter: grayscale(20%) contrast(1.2);
+    }
+    .lineup-header-wrap .section-label,
+    .lineup-header-wrap .font-display,
+    .lineup-header-wrap .section-desc {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* === Bolívar Easter Egg on "Los Guerreros" === */
+    .guerreros-title-wrap {
+      position: relative;
+      display: inline-block;
+    }
+    .bolivar-egg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 280px;
+      height: auto;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 3;
+      border-radius: 8px;
+      filter: sepia(0.3) contrast(1.1);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .guerreros-title-wrap:hover .bolivar-egg {
+      opacity: 0.85;
+      transform: translate(-50%, -50%) scale(1.02);
+    }
+
+    /* === Champions poster in closing section === */
+    .closing__poster {
+      display: block;
+      max-width: 500px;
+      width: 90%;
+      margin: 2rem auto;
+      border-radius: 12px;
+      border: 1px solid rgba(244, 196, 48, 0.3);
+      box-shadow: 0 0 40px rgba(244, 196, 48, 0.15);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .closing__poster:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 60px rgba(244, 196, 48, 0.25);
+    }
+    @media (min-width: 641px) {
+      .closing__poster { width: 100%; }
+    }
+
+    /* === Cinematic divider overlay — lighter for wholeteam.jpeg === */
+    .cinematic-divider--dark .cinematic-divider__overlay {
+      background:
+        linear-gradient(to bottom, var(--bg2) 0%, transparent 15%, transparent 85%, var(--bg) 100%);
+    }
+
+    /* === Cinematic divider quote — shifted left for team walking right-to-left === */
+    .cinematic-divider--dark .cinematic-divider__quote {
+      align-items: flex-start;
+      text-align: left;
+      padding-left: 6%;
+    }
+    @media (max-width: 640px) {
+      .cinematic-divider--dark .cinematic-divider__quote {
+        align-items: center;
+        text-align: center;
+        padding-left: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="particles-bg"></div>
+  <div class="noise"></div>
+
+  <div class="content-layer">
+  <!-- ===== HERO ===== -->
+  <section id="hero" class="section">
+    <div class="hero-photo" aria-hidden="true"></div>
+    <div class="hero-reflection"></div>
+    <div class="hero-content">
+      <div class="hero-meta">
+        <div>MDC / LOANDEPOT PARK</div>
+        <div class="stars-arch">
+          <svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+        </div>
+        <div>CAMPEONES DEL MUNDO / WORLD CHAMPIONS</div>
+      </div>
+      <h1 class="hero-title">
+        <span class="hero-word hero-word--hasta" data-text="HASTA">HASTA</span>
+        <span class="hero-word hero-word--la" data-text="LA">LA</span>
+        <span class="hero-word hero-word--final" data-text="FINAL">FINAL</span>
+      </h1>
+      <div class="matchup-badge matchup-badge--champion">
+        <div class="champion-pill font-display">&#x1F3C6; CAMPEONES &#x1F3C6;</div>
+        <div class="teams font-display">&#x1F1FB;&#x1F1EA; VEN <span class="hero-score">3 - 2</span> USA &#x1F1FA;&#x1F1F8;</div>
+        <div class="hero-date">WORLD BASEBALL CLASSIC 2026 · MIAMI</div>
+      </div>
+    </div>
+    <div class="tricolor-bar" style="position: absolute; bottom: 0; left: 0;"></div>
+  </section>
+
+  <!-- ===== LA RUTA ===== -->
+  <section id="la-ruta" class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title font-display">LA RUTA<br>DEL GUERRERO</h2>
+        <p class="section-desc">El camino no fue dado, fue arrebatado. <span class="eng">The path wasn't given, it was taken.</span></p>
+      </div>
+    </div>
+    <div class="ruta-hero">
+      <img src="images/2026-03-08t033134z-1562877724-mt1usatoday28435467-rtrmadp-3-baseball-world-baseball-classic-venezuela-at-israel.avif" alt="Venezuela team celebration in the dugout — Arraez #2">
+      <div class="ruta-hero__overlay"></div>
+    </div>
+    <div class="section-inner" style="padding-top: 0;">
+      <div class="journey-grid">
+        <!-- Pool D -->
+        <div class="journey-card">
+          <div class="journey-card__bg photo-editorial" style="background-image: url('images/2026-03-08t033134z-1562877724-mt1usatoday28435467-rtrmadp-3-baseball-world-baseball-classic-venezuela-at-israel.avif');"></div>
+          <div class="journey-card__round">Fase de Grupos<br><span class="text-muted">Pool D</span></div>
+          <div class="journey-card__opponent">🌎 Various</div>
+          <div class="journey-card__score">4–1</div>
+          <span class="journey-card__status status--win">Victoria</span>
+          <div class="journey-card__highlight">
+            <p class="journey-card__highlight-es"><em>Venezuela avanza de la fase de grupos y se planta.</em></p>
+            <p class="journey-card__highlight-en">Venezuela advances from Pool D, setting the stage.</p>
+          </div>
+        </div>
+        <!-- Quarterfinal -->
+        <div class="journey-card">
+          <div class="journey-card__bg photo-editorial" style="background-image: url('images/venezuelacelebratesjapan.jpg');"></div>
+          <div class="journey-card__round">Cuartos de Final<br><span class="text-muted">Quarterfinal</span></div>
+          <div class="journey-card__opponent">🇯🇵 Japan</div>
+          <div class="journey-card__score">8–5</div>
+          <span class="journey-card__status status--win">Victoria</span>
+          <div class="journey-card__highlight">
+            <p class="journey-card__highlight-es"><em>El jonrón de 3 carreras de Wilyer Abreu. Los campeones defensores caen.</em></p>
+            <p class="journey-card__highlight-en">Wilyer Abreu's 3-run blast. The defending champions fall.</p>
+          </div>
+        </div>
+        <!-- Semifinal -->
+        <div class="journey-card">
+          <div class="journey-card__bg photo-editorial" style="background-image: url('images/venezuelabeatsitaly.jpg');"></div>
+          <div class="journey-card__round">Semifinal<br><span class="text-muted">Semifinal</span></div>
+          <div class="journey-card__opponent">🇮🇹 Italy</div>
+          <div class="journey-card__score">4–2</div>
+          <span class="journey-card__status status--win">Victoria</span>
+          <div class="journey-card__highlight">
+            <p class="journey-card__highlight-es"><em>Seis lanzadores venezolanos apagan a Italia. Primera final en la historia.</em></p>
+            <p class="journey-card__highlight-en">Six Venezuelan pitchers shut down unbeaten Italy. First ever final.</p>
+          </div>
+        </div>
+        <!-- The Final — CHAMPIONSHIP -->
+        <div class="journey-card journey-card--final journey-card--champion">
+          <div class="journey-card__bg photo-editorial" style="background-image: url('images/venezuelavsusa.jpg');"></div>
+          <div class="journey-card__round">La Gran Final<br><span class="text-muted">The Final</span></div>
+          <div class="journey-card__opponent">&#x1F1FA;&#x1F1F8; USA</div>
+          <div class="journey-card__score journey-card__score--gold">3–2</div>
+          <span class="journey-card__status status--win status--champion">&#x1F3C6; VICTORIA</span>
+          <div class="journey-card__highlight">
+            <p class="journey-card__highlight-es"><em>Su&aacute;rez dobla en la 9na. Palencia cierra. Venezuela es campe&oacute;n del mundo.</em></p>
+            <p class="journey-card__highlight-en">Su&aacute;rez doubles in the 9th. Palencia shuts the door. Venezuela is world champion.</p>
+          </div>
+        </div>
+      </div>
+      <div class="journey-footer">
+        <em class="victory-shimmer">&#x1F3C6; Campeones del World Baseball Classic 2026 &#x1F3C6;</em>
+        <div class="ven-divider"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CINEMATIC DIVIDER ===== -->
+  <section class="cinematic-divider cinematic-divider--dark" aria-hidden="true">
+    <div class="cinematic-divider__img photo-editorial" style="background-image: url('images/wholeteam.jpeg');"></div>
+    <div class="cinematic-divider__overlay"></div>
+    <div class="cinematic-divider__quote">
+      <p class="font-serif"><em>"Venezuela no juega b&eacute;isbol. Venezuela VIVE b&eacute;isbol."</em></p>
+      <p class="cinematic-divider__en">Venezuela doesn't play baseball. Venezuela LIVES baseball.</p>
+    </div>
+  </section>
+
+  <!-- ===== EL LINEUP ===== -->
+  <section id="el-lineup" class="section stars-bg">
+    <div class="section-inner">
+      <div class="lineup-header-wrap">
+        <div class="lineup-header-bg" aria-hidden="true"></div>
+        <p class="section-label">El Lineup / The Roster</p>
+        <div class="guerreros-title-wrap">
+          <h2 class="font-display" style="font-size: clamp(3rem, 8vw, 6rem); color: var(--white);">Los Guerreros</h2>
+          <img class="bolivar-egg" src="images/HDpqSv3aQAE8VKl.jpeg" alt="" aria-hidden="true" loading="lazy">
+        </div>
+        <p class="section-desc font-serif" style="color: var(--muted); font-style: italic; margin-top: 0.5rem;">Los hijos del Araguaney <span class="eng">The sons of the Araguaney</span></p>
+      </div>
+
+      <div class="player-grid">
+        <!-- 1. Ronald Acuña Jr. — RF -->
+        <div class="player-card" data-accent="red" onclick="this.classList.toggle('flipped')">
+          <div class="player-card__inner">
+            <div class="player-card__front">
+              <img class="player-card__photo" src="images/acuna.jpeg" alt="Ronald Acuña Jr. portrait" loading="lazy">
+              <span class="player-card__position">RF</span>
+              <span class="player-card__number">#21</span>
+              <h3 class="player-card__name font-display">Ronald Acuña Jr.</h3>
+              <p class="player-card__team">Atlanta Braves</p>
+              <p class="player-card__stat">Encendió cada jugada</p>
+            </div>
+            <div class="player-card__back">
+              <span class="player-card__nickname">"El Capitán"</span>
+              <p class="player-card__desc-es font-serif"><em>El latido de este equipo. Cuando Acuña se mueve, Venezuela se mueve.</em></p>
+              <p class="player-card__desc-en">The heartbeat of this team. When Acuña moves, Venezuela moves.</p>
+              <span class="player-card__cue">‹ Volver</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Maikel García — 3B -->
+        <div class="player-card" data-accent="gold" onclick="this.classList.toggle('flipped')">
+          <div class="player-card__inner">
+            <div class="player-card__front">
+              <img class="player-card__photo" src="images/maikelgarcia.jpeg" alt="Maikel García" loading="lazy">
+              <span class="player-card__position">3B</span>
+              <span class="player-card__number">#11</span>
+              <h3 class="player-card__name font-display">Maikel García</h3>
+              <p class="player-card__team">Kansas City Royals</p>
+              <p class="player-card__stat">Defensa de élite</p>
+            </div>
+            <div class="player-card__back">
+              <span class="player-card__nickname">"El Guante de Oro"</span>
+              <p class="player-card__desc-es font-serif"><em>Una muralla en la esquina caliente. Defensa y velocidad que cambian el juego.</em></p>
+              <p class="player-card__desc-en">A wall at the hot corner. Defense and speed that change the game.</p>
+              <span class="player-card__cue">‹ Volver</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Luis Arráez — 1B -->
+        <div class="player-card" data-accent="gold" onclick="this.classList.toggle('flipped')">
+          <div class="player-card__inner">
+            <div class="player-card__front">
+              <img class="player-card__photo" src="images/gettyimages-1247866663-2048x2048.jpg" alt="Luis Arráez in blue/gold throwback jersey" loading="lazy">
+              <span class="player-card__position">1B</span>
+              <span class="player-card__number">#2</span>
+              <h3 class="player-card__name font-display">Luis Arráez</h3>
+              <p class="player-card__team">San Diego Padres</p>
+              <p class="player-card__stat">8 H · 10 CI</p>
+            </div>
+            <div class="player-card__back">
+              <span class="player-card__nickname">"La Máquina de Hits"</span>
+              <p class="player-card__desc-es font-serif"><em>El bateador más letal del torneo. 8 imparables, 10 carreras impulsadas.</em></p>
+              <p class="player-card__desc-en">The tournament's most dangerous hitter. 8 hits, 10 RBI in 25 at-bats.</p>
+              <span class="player-card__cue">‹ Volver</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Eugenio Suárez — DH -->
+        <div class="player-card" data-accent="blue" onclick="this.classList.toggle('flipped')">
+          <div class="player-card__inner">
+            <div class="player-card__front">
+              <img class="player-card__photo" src="images/eugeniosuarez.jpeg" alt="Eugenio Suárez — WBC Final MVP" loading="lazy">
+              <span class="player-card__position">DH</span>
+              <span class="player-card__number">#7</span>
+              <h3 class="player-card__name font-display">Eugenio Suárez</h3>
+              <p class="player-card__team">Arizona Diamondbacks</p>
+              <p class="player-card__stat">Poder en el lineup</p>
+            </div>
+            <div class="player-card__back">
+              <span class="player-card__nickname">"El Genio"</span>
+              <p class="player-card__desc-es font-serif"><em>Veterano de mil batallas. Su bat es una amenaza constante en el medio del lineup.</em></p>
+              <p class="player-card__desc-en">A battle-tested veteran. His bat is a constant threat in the middle of the lineup.</p>
+              <span class="player-card__cue">‹ Volver</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Gleyber Torres — 2B -->
+        <div class="player-card" data-accent="red" onclick="this.classList.toggle('flipped')">
+          <div class="player-card__inner">
+            <div class="player-card__front">
+              <img class="player-card__photo" src="images/gettyimages-2263925816-2048x2048.jpg" alt="Gleyber Torres portrait" loading="lazy">
+              <span class="player-card__position">2B</span>
+              <span class="player-card__number">#25</span>
+              <h3 class="player-card__name font-display">Gleyber Torres</h3>
+              <p class="player-card__team">Detroit Tigers</p>
+              <p class="player-card__stat">Clutch en octubre</p>
+            </div>
+            <div class="player-card__back">
+              <span class="player-card__nickname">"El Momento"</span>
+              <p class="player-card__desc-es font-serif"><em>Forjado en las noches más grandes de octubre. Un jugador que sube de nivel cuando más importa.</em></p>
+              <p class="player-card__desc-en">Forged in October's biggest nights. A player who elevates when it matters most.</p>
+              <span class="player-card__cue">‹ Volver</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Ezequiel Tovar — SS -->
+        <div class="player-card" data-accent="blue" onclick="this.classList.toggle('flipped')">
+          <div class="player-card__inner">
+            <div class="player-card__front">
+              <img class="player-card__photo" src="images/ezequieltovar.webp" alt="Ezequiel Tovar" loading="lazy">
+              <span class="player-card__position">SS</span>
+              <span class="player-card__number">#14</span>
+              <h3 class="player-card__name font-display">Ezequiel Tovar</h3>
+              <p class="player-card__team">Colorado Rockies</p>
+              <p class="player-card__stat">Cero errores en 6 juegos</p>
+            </div>
+            <div class="player-card__back">
+              <span class="player-card__nickname">"El Muro"</span>
+              <p class="player-card__desc-es font-serif"><em>El shortstop más limpio del torneo. Su guante ha sido impecable en cada jugada.</em></p>
+              <p class="player-card__desc-en">The cleanest shortstop in the tournament. His glove has been flawless on every play.</p>
+              <span class="player-card__cue">‹ Volver</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Wilyer Abreu — LF -->
+        <div class="player-card" data-accent="red" onclick="this.classList.toggle('flipped')">
+          <div class="player-card__inner">
+            <div class="player-card__front">
+              <img class="player-card__photo" src="images/abreuheadshot.jpg" alt="Wilyer Abreu smiling in white jersey" loading="lazy">
+              <span class="player-card__position">LF</span>
+              <span class="player-card__number">#16</span>
+              <h3 class="player-card__name font-display">Wilyer Abreu</h3>
+              <p class="player-card__team">Boston Red Sox</p>
+              <p class="player-card__stat">Jonrón de 3 vs. Japón</p>
+            </div>
+            <div class="player-card__back">
+              <span class="player-card__nickname">"El Héroe de Tokio"</span>
+              <p class="player-card__desc-es font-serif"><em>Su jonrón de 3 carreras selló la victoria más grande en la historia del WBC venezolano.</em></p>
+              <p class="player-card__desc-en">His towering 3-run blast sealed the biggest win in Venezuelan WBC history.</p>
+              <span class="player-card__cue">‹ Volver</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. Salvador Pérez — C -->
+        <div class="player-card" data-accent="blue" onclick="this.classList.toggle('flipped')">
+          <div class="player-card__inner">
+            <div class="player-card__front">
+              <img class="player-card__photo" src="images/gettyimages-1247884615-2048x2048.jpg" alt="Salvador Pérez pointing at #13 jersey" loading="lazy">
+              <span class="player-card__position">C</span>
+              <span class="player-card__number">#13</span>
+              <h3 class="player-card__name font-display">Salvador Pérez</h3>
+              <p class="player-card__team">Kansas City Royals</p>
+              <p class="player-card__stat">Lideró vs. Japón</p>
+            </div>
+            <div class="player-card__back">
+              <span class="player-card__nickname">"El Cachorro"</span>
+              <p class="player-card__desc-es font-serif"><em>El guerrero veterano. Su energía detrás del plato no tiene igual.</em></p>
+              <p class="player-card__desc-en">The veteran warrior. His energy behind the plate is unmatched.</p>
+              <span class="player-card__cue">‹ Volver</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9. Jackson Chourio — CF -->
+        <div class="player-card" data-accent="gold" onclick="this.classList.toggle('flipped')">
+          <div class="player-card__inner">
+            <div class="player-card__front">
+              <img class="player-card__photo" src="images/gettyimages-2264317711-2048x2048.jpg" alt="Jackson Chourio in white jersey" loading="lazy">
+              <span class="player-card__position">CF</span>
+              <span class="player-card__number">#1</span>
+              <h3 class="player-card__name font-display">Jackson Chourio</h3>
+              <p class="player-card__team">Milwaukee Brewers</p>
+              <p class="player-card__stat">La nueva generación</p>
+            </div>
+            <div class="player-card__back">
+              <span class="player-card__nickname">"El Futuro"</span>
+              <p class="player-card__desc-es font-serif"><em>Uno de los jóvenes más dinámicos del béisbol. Batea 9 como si fuera 3.</em></p>
+              <p class="player-card__desc-en">One of the most dynamic young players in baseball. Batting 9th like he bats 3rd.</p>
+              <span class="player-card__cue">‹ Volver</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10. Andrés Giménez — Utility / Bench -->
+        <div class="player-card" data-accent="gold" onclick="this.classList.toggle('flipped')">
+          <div class="player-card__inner">
+            <div class="player-card__front">
+              <img class="player-card__photo" src="images/Gimenez.jpeg" alt="Andrés Giménez leaping from dugout" loading="lazy">
+              <span class="player-card__position">UTL</span>
+              <span class="player-card__number">#0</span>
+              <h3 class="player-card__name font-display">Andrés Giménez</h3>
+              <p class="player-card__team">Cleveland Guardians</p>
+              <p class="player-card__stat">Energía pura</p>
+            </div>
+            <div class="player-card__back">
+              <span class="player-card__nickname">"La Chispa"</span>
+              <p class="player-card__desc-es font-serif"><em>Su energía es contagiosa. Ya sea en el campo o desde el banco, Giménez enciende a todo el equipo.</em></p>
+              <p class="player-card__desc-en">His energy is contagious. On the field or from the bench, Giménez ignites the whole team.</p>
+              <span class="player-card__cue">‹ Volver</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SP. Eduardo Rodríguez — Starting Pitcher -->
+        <div class="player-card" data-accent="red" onclick="this.classList.toggle('flipped')">
+          <div class="player-card__inner">
+            <div class="player-card__front">
+              <img class="player-card__photo" src="images/eduardorodriguez.jpeg" alt="Eduardo Rodríguez WBC portrait" loading="lazy">
+              <span class="player-card__position">SP</span>
+              <span class="player-card__number">#52</span>
+              <h3 class="player-card__name font-display">Eduardo Rodríguez</h3>
+              <p class="player-card__team">Arizona Diamondbacks</p>
+              <p class="player-card__stat">Abrirá La Final</p>
+            </div>
+            <div class="player-card__back">
+              <span class="player-card__nickname">"El Abridor de la Final"</span>
+              <p class="player-card__desc-es font-serif"><em>Encargado de contener a USA en el partido más grande de su carrera. Zurdo con temple de acero.</em></p>
+              <p class="player-card__desc-en">Tasked with keeping Team USA at bay in the biggest game of his career. A lefty with nerves of steel.</p>
+              <span class="player-card__cue">‹ Volver</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bullpen & Coaching Staff -->
+      <div class="bullpen-section">
+        <h3 class="bullpen-label">El Bullpen & Coaching Staff</h3>
+        <div class="bullpen-grid">
+          <!-- Miguel Cabrera — Hitting Coach -->
+          <div class="bullpen-card">
+            <img class="bullpen-card__photo" src="images/miguel cabrera.jpg" alt="Miguel Cabrera" loading="lazy">
+            <div class="bullpen-card__overlay"></div>
+            <div class="bullpen-card__info">
+              <div class="bullpen-card__name font-display">Miguel Cabrera</div>
+              <div class="bullpen-card__role">Hitting Coach · #24</div>
+            </div>
+          </div>
+          <!-- Carlos Guzmán — P -->
+          <div class="bullpen-card">
+            <img class="bullpen-card__photo" src="images/gettyimages-2264122070-2048x2048.jpg" alt="Carlos Guzmán pitching pose" loading="lazy">
+            <div class="bullpen-card__overlay"></div>
+            <div class="bullpen-card__info">
+              <div class="bullpen-card__name font-display">Carlos Guzm&aacute;n</div>
+              <div class="bullpen-card__role">Pitcher</div>
+            </div>
+          </div>
+          <!-- Ángel Zerpa — P -->
+          <div class="bullpen-card">
+            <img class="bullpen-card__photo" src="images/angelzerpa.jpg" alt="Ángel Zerpa" loading="lazy">
+            <div class="bullpen-card__overlay"></div>
+            <div class="bullpen-card__info">
+              <div class="bullpen-card__name font-display">&Aacute;ngel Zerpa</div>
+              <div class="bullpen-card__role">Pitcher</div>
+            </div>
+          </div>
+          <!-- Emmanuel de Jesús — P -->
+          <div class="bullpen-card">
+            <img class="bullpen-card__photo" src="images/emmanueldejesus.jpg" alt="Emmanuel de Jesús" loading="lazy">
+            <div class="bullpen-card__overlay"></div>
+            <div class="bullpen-card__info">
+              <div class="bullpen-card__name font-display">Emmanuel de Jes&uacute;s</div>
+              <div class="bullpen-card__role">Pitcher</div>
+            </div>
+          </div>
+          <!-- Christian Suárez — P -->
+          <div class="bullpen-card">
+            <img class="bullpen-card__photo" src="images/christian suarez.jpg" alt="Christian Suárez" loading="lazy">
+            <div class="bullpen-card__overlay"></div>
+            <div class="bullpen-card__info">
+              <div class="bullpen-card__name font-display">Christian Su&aacute;rez</div>
+              <div class="bullpen-card__role">Pitcher</div>
+            </div>
+          </div>
+          <!-- Eduard Bazardo — P / El Tambor -->
+          <div class="bullpen-card">
+            <img class="bullpen-card__photo" src="images/bazardo.jpg" alt="Eduard Bazardo — El Tambor" loading="lazy">
+            <div class="bullpen-card__overlay"></div>
+            <div class="bullpen-card__info">
+              <div class="bullpen-card__name font-display">Eduard Bazardo</div>
+              <div class="bullpen-card__role">Pitcher &middot; El Tambor 🥁</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <blockquote class="lineup-quote">
+        <p class="font-serif"><em>"No cometieron un solo error de campo en seis partidos. Ni uno."</em></p>
+        <p class="lineup-quote__en">"They haven't committed a single fielding error in six games. Not one."</p>
+        <cite>— ESPN</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ===== LA DIASPORA ===== -->
+  <section id="la-diaspora" class="section">
+    <div class="section-inner">
+      <p class="section-label">La Diáspora / The Diaspora</p>
+      <h2 class="font-display" style="font-size: clamp(3rem, 8vw, 6rem); color: var(--white);">7.7 Millones de Almas</h2>
+      <p class="font-serif" style="color: var(--muted); font-style: italic; max-width: 600px; margin-top: 1rem;">
+        <em>Dispersos por el mundo, unidos por esta victoria.</em><br>
+        Scattered across the world, united by this victory.
+      </p>
+    </div>
+
+    <!-- Globe -->
+    <div id="globe-container">
+      <div class="globe-counter">
+        <div class="globe-counter__number" id="globe-count">0</div>
+        <div class="globe-counter__label">venezolanos en el mundo</div>
+        <div class="globe-subtitle" id="globe-subtitle" style="opacity:0">
+          Y esta noche, todos celebran. &#x1F3C6;<br>
+          <span style="color: var(--muted)">And tonight, they all celebrate. Champions.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Voces -->
+    <div id="voces">
+      <div class="voces-bg-photo" aria-hidden="true" style="background-image: url('images/movingontofinals.jpeg');"></div>
+      <div class="section-inner">
+        <p class="section-label">Voces / Voices</p>
+        <h2 class="font-display voces-heading">Voces Sin Fronteras</h2>
+        <div class="voces-grid" id="voces-grid">
+          <!-- Tweets injected by js/tweets.js -->
+        </div>
+        <p class="voces-disclaimer font-serif">
+          <em>Voces reales de X. Ningún dato personal adicional fue recolectado.</em><br>
+          <span style="color: var(--muted)">Real voices from X. No additional personal data was collected.</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- El Latido -->
+    <div id="el-latido">
+      <div class="section-inner">
+        <p class="section-label">El Latido / The Heartbeat</p>
+        <h2 class="font-display latido-heading">El Latido del Torneo</h2>
+      </div>
+      <div class="latido-track-wrapper">
+        <div class="latido-track" id="latido-track">
+          <div class="latido-line"></div>
+
+          <!-- 1. Venezuela Arrives (odd — left) -->
+          <div class="latido-moment" data-accent="red">
+            <div class="latido-dot"></div>
+            <h3 class="latido-moment__title font-display">Venezuela Llega</h3>
+            <p class="latido-moment__date">Marzo 5</p>
+            <img class="latido-moment__photo" src="images/arrival.webp" alt="Venezuela arrives at WBC 2026" loading="lazy">
+            <p class="latido-moment__es font-serif"><em>Por primera vez, el mundo nos toma en serio.</em></p>
+            <p class="latido-moment__en">For the first time, the world takes us seriously.</p>
+          </div>
+
+          <!-- 2. Primera Señal (even — right) -->
+          <div class="latido-moment" data-accent="red">
+            <div class="latido-dot"></div>
+            <h3 class="latido-moment__title font-display">Primera Se&ntilde;al</h3>
+            <p class="latido-moment__date">Pool D</p>
+            <p class="latido-moment__es font-serif"><em>La primera se&ntilde;al de que este equipo es diferente.</em></p>
+            <p class="latido-moment__en">The first sign this team is different.</p>
+          </div>
+
+          <!-- 3. Pool Clinched (odd — left) -->
+          <div class="latido-moment" data-accent="red">
+            <div class="latido-dot"></div>
+            <h3 class="latido-moment__title font-display">Pool D Asegurado</h3>
+            <span class="latido-moment__score font-display">4-1</span>
+            <p class="latido-moment__date">4-1 Record</p>
+            <img class="latido-moment__photo" src="images/poolplay.jpeg" alt="Venezuela pool play celebration" loading="lazy">
+            <p class="latido-moment__es font-serif"><em>Venezuela avanza. La mesa est&aacute; servida.</em></p>
+            <p class="latido-moment__en">Venezuela advances. The table is set.</p>
+          </div>
+
+          <!-- 4. Abreu HR - HERO (even — right) -->
+          <div class="latido-moment latido-moment--hero" data-accent="gold">
+            <div class="latido-dot"></div>
+            <h3 class="latido-moment__title font-display">ABREU. TRES CARRERAS.</h3>
+            <span class="latido-moment__score font-display">8-5</span>
+            <p class="latido-moment__date">vs Japan &#x1F1EF;&#x1F1F5; &middot; QF</p>
+            <img class="latido-moment__photo" src="images/abreuhomerun.jpg" alt="Wilyer Abreu 3-run home run vs Japan" loading="lazy">
+            <p class="latido-moment__es font-serif"><em>El jonr&oacute;n que cambi&oacute; la historia. Los campeones defensores caen en Miami.</em></p>
+            <p class="latido-moment__en">The home run that changed history. The defending champions fall in Miami.</p>
+          </div>
+
+          <!-- 5. Montero takes the ball (odd — left) -->
+          <div class="latido-moment" data-accent="blue">
+            <div class="latido-dot"></div>
+            <h3 class="latido-moment__title font-display">Montero al Mont&iacute;culo</h3>
+            <p class="latido-moment__date">vs Italy &#x1F1EE;&#x1F1F9; &middot; SF</p>
+            <img class="latido-moment__photo" src="images/montero.jpg" alt="Keider Montero on the mound" loading="lazy">
+            <p class="latido-moment__es font-serif"><em>Keider Montero toma la pelota en el partido m&aacute;s grande de su vida.</em></p>
+            <p class="latido-moment__en">Keider Montero takes the ball in the biggest game of his life.</p>
+          </div>
+
+          <!-- 6. Six pitchers (even — right) -->
+          <div class="latido-moment" data-accent="red">
+            <div class="latido-dot"></div>
+            <h3 class="latido-moment__title font-display">Seis Brazos, Un Coraz&oacute;n</h3>
+            <span class="latido-moment__score font-display">4-2</span>
+            <p class="latido-moment__date">4-2 Venezuela</p>
+            <img class="latido-moment__photo" src="images/venezuelabeatsitaly.jpg" alt="Venezuela beats Italy in semifinal" loading="lazy">
+            <p class="latido-moment__es font-serif"><em>Seis lanzadores apagan a la invicta Italia. Juntos.</em></p>
+            <p class="latido-moment__en">Six pitchers shut down unbeaten Italy. Together.</p>
+          </div>
+
+          <!-- 7. First Final Ever - HERO (odd — left) -->
+          <div class="latido-moment latido-moment--hero" data-accent="gold">
+            <div class="latido-dot"></div>
+            <h3 class="latido-moment__title font-display">Primera Final en la Historia</h3>
+            <p class="latido-moment__date">Marzo 17, 2026</p>
+            <img class="latido-moment__photo" src="images/movingontofinals.jpeg" alt="Venezuela advances to first ever WBC Final" loading="lazy">
+            <p class="latido-moment__es font-serif"><em>Venezuela llega donde nunca antes. Un pa&iacute;s entero tiembla de emoci&oacute;n.</em></p>
+            <p class="latido-moment__en">Venezuela reaches where it never has before. An entire nation trembles with emotion.</p>
+          </div>
+
+          <!-- 8. The Final (even — right) -->
+          <div class="latido-moment latido-moment--hero" data-accent="gold">
+            <div class="latido-dot"></div>
+            <h3 class="latido-moment__title font-display">LA FINAL</h3>
+            <span class="latido-moment__score font-display">3-2</span>
+            <p class="latido-moment__date">&#x1F1FB;&#x1F1EA; vs &#x1F1FA;&#x1F1F8; &middot; Miami</p>
+            <img class="latido-moment__photo" src="images/palencia.jpg" alt="Palencia closes the final" loading="lazy">
+            <p class="latido-moment__es font-serif"><em>Rodr&iacute;guez domina 4&#x2153; innings. Abreu jonronea. Harper empata 2-2 en la 8va.</em></p>
+            <p class="latido-moment__en">Rodr&iacute;guez dominates 4&#x2153; innings. Abreu homers. Harper ties it 2-2 in the 8th.</p>
+          </div>
+
+          <!-- 9. LA NOVENA — CHAMPIONSHIP MOMENT (breaks out full width) -->
+          <div class="latido-moment latido-moment--hero latido-moment--tonight latido-moment--champion" data-accent="gold">
+            <div class="latido-dot"></div>
+            <div class="latido-moment__tricolor-bar"></div>
+            <h3 class="latido-moment__title font-display">SU&Aacute;REZ. DOBLE. CAMPEONES.</h3>
+            <p class="latido-moment__date">LA NOVENA / THE NINTH &#x1F3C6;</p>
+            <img class="latido-moment__photo latido-moment__photo--wide" src="images/venezuela victory.jpeg" alt="Venezuela celebrates World Championship" loading="lazy">
+            <p class="latido-moment__es font-serif"><em>Eugenio Su&aacute;rez dobla a la derecha. Sanoja anota. Palencia cierra 1-2-3. Venezuela es campe&oacute;n del mundo por primera vez.</em></p>
+            <p class="latido-moment__en">Eugenio Su&aacute;rez doubles to right. Sanoja scores. Palencia closes 1-2-3. Venezuela is world champion for the first time.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CHAMPIONS CINEMATIC DIVIDER ===== -->
+  <section class="cinematic-divider champions-photo" style="position:relative;width:100%;height:60vh;overflow:hidden;">
+    <img src="images/CHAMPIONS.jpeg" alt="Venezuela Campeones WBC 2026" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.8);">
+    <div style="position:absolute;bottom:0;left:0;width:100%;height:40%;background:linear-gradient(to top, #07070f 0%, transparent 100%);"></div>
+  </section>
+
+  <!-- ===== CLOSING — CHAMPIONSHIP HERO ===== -->
+  <footer id="closing" class="closing">
+    <div class="tricolor-bar"></div>
+
+    <div class="closing__bg">
+      <img src="images/venezuela victory.jpeg" alt="Venezuela celebrates WBC Championship" loading="lazy">
+    </div>
+
+    <div class="closing__content">
+      <!-- 8 stars arch -->
+      <div class="stars-arch">
+        <svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+      </div>
+
+      <!-- Champions poster — the final movie poster -->
+      <img
+        class="closing__poster"
+        src="images/CHAMPIONS.jpeg"
+        alt="Venezuela — World Baseball Classic 2026 Champions poster"
+        loading="lazy"
+      >
+
+      <!-- Main title -->
+      <h2 class="closing__title font-display">
+        <span class="closing__title-line closing__title-line--gold victory-shimmer">CAMPEONES</span>
+        <span class="closing__title-line closing__title-line--white">DEL MUNDO</span>
+      </h2>
+
+      <!-- Score -->
+      <div class="closing__score font-display">
+        <span>&#x1F1FB;&#x1F1EA;</span>
+        <span class="closing__score-num" style="color: var(--gold);">3</span>
+        <span class="closing__score-dash">&mdash;</span>
+        <span class="closing__score-num">2</span>
+        <span>&#x1F1FA;&#x1F1F8;</span>
+      </div>
+
+      <!-- Emotional line -->
+      <p class="closing__emotion font-serif">
+        <em>Venezuela llega donde nunca nadie lleg&oacute;.</em>
+        <span class="eng">Venezuela reaches where no one ever has.</span>
+      </p>
+
+      <!-- Tricolor divider -->
+      <div class="tricolor-bar" style="width: 120px; margin: 3rem auto;"></div>
+
+      <!-- Venezuela Siempre -->
+      <p class="closing__siempre font-display">VENEZUELA SIEMPRE</p>
+
+      <!-- Film credits block -->
+      <div class="closing__credits">
+        WORLD BASEBALL CLASSIC 2026 CHAMPIONS &#10022; MANAGER <strong>OMAR L&Oacute;PEZ</strong> &#10022; CAPTAIN <strong>SALVADOR P&Eacute;REZ</strong> &#10022; MVP <strong>EUGENIO SU&Aacute;REZ</strong> &#10022; ROSTER <strong>ACU&Ntilde;A JR, ARR&Aacute;EZ, ABREU, CHOURIO, GIM&Eacute;NEZ, GARC&Iacute;A, SU&Aacute;REZ, TORRES, TOVAR, RODR&Iacute;GUEZ, PALENCIA</strong> &#10022; FUEL <strong>CACAO Y AREPA</strong> &#10022; SHOT ON LOCATION <strong>LOANDEPOT PARK, MIAMI</strong> &#10022; FINAL SCORE <strong>VENEZUELA 3 &mdash; USA 2</strong> &#10022; RATING <strong>HISTORIC</strong>
+      </div>
+
+      <!-- Cultural marks -->
+      <div class="closing__marks">
+        <span>TEPUY</span>
+        <span>&middot;</span>
+        <span>ARAGUANEY</span>
+        <span>&middot;</span>
+        <span>CUATRO</span>
+        <span>&middot;</span>
+        <span>TURPIAL</span>
+        <span>&middot;</span>
+        <span>ORQU&Iacute;DEA</span>
+      </div>
+
+      <!-- Photo credits -->
+      <p class="closing__photo-credits">
+        Photography: MLB Photos, AP Photo, Getty Images / Rob Tringali, Daniel Shirey
+      </p>
+    </div>
+  </footer>
+  </div><!-- end .content-layer -->
+
+  <!-- Tooltip for globe -->
+  <div class="globe-tooltip" id="globe-tooltip">
+    <span class="globe-tooltip__city"></span><br>
+    <span class="globe-tooltip__pop"></span>
+  </div>
+
+  <!-- Scripts -->
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script defer src="js/particles.js"></script>
+  <script defer src="js/globe.js"></script>
+  <script defer src="js/main.js"></script>
+  <script defer src="js/tweets.js"></script>
+  <script defer src="js/timeline.js"></script>
+  <script defer src="js/celebrations.js"></script>
+  <script defer src="js/confetti.js"></script>
+</body>
+</html>
