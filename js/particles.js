@@ -27,14 +27,17 @@
   );
   camera.position.z = 50;
 
+  /* ---- Mobile detection ---- */
+  const isMobile = window.innerWidth <= 768;
+
   /* ---- Renderer ---- */
-  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !isMobile });
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
   container.appendChild(renderer.domElement);
 
   /* ---- Particles ---- */
-  const PARTICLE_COUNT = 2000;
+  const PARTICLE_COUNT = isMobile ? 400 : 2000;
   const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(PARTICLE_COUNT * 3);
   const colors = new Float32Array(PARTICLE_COUNT * 3);

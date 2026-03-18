@@ -512,43 +512,91 @@
 
   // -------------------------------------------------------------------------
   // CINEMATIC CAMERA SEQUENCE (triggered when globe scrolls into view)
-  // Shot 1: Tight on Venezuela (already set above)
-  // Shot 2: Pan north to Miami (the stadium, ground zero)
-  // Shot 3: Pull back to see all of Americas
-  // Shot 4: Rotate to show Europe + Africa
-  // Shot 5: Full globe view, enable auto-rotate
+  // Desktop: setTimeout chain
+  // Mobile: GSAP timeline auto-play (no scroll pinning)
   // -------------------------------------------------------------------------
   var cinematicDone = false;
 
-  function startCinematicSequence() {
+  function startDesktopCinematic() {
     if (cinematicDone) return;
     cinematicDone = true;
 
-    // Shot 1: Hold on Venezuela for 1.5s (already there)
     setTimeout(function () {
-      // Shot 2: Pan to Miami (2s transition)
       globe.pointOfView({ lat: MIAMI.lat, lng: MIAMI.lng, altitude: 0.8 }, 2000);
     }, 1500);
 
     setTimeout(function () {
-      // Shot 3: Pull back to see Americas (2.5s transition)
       globe.pointOfView({ lat: 20, lng: -75, altitude: 1.8 }, 2500);
     }, 4000);
 
     setTimeout(function () {
-      // Shot 4: Rotate to show Europe + Africa (3s transition)
       globe.pointOfView({ lat: 30, lng: -10, altitude: 2.2 }, 3000);
     }, 7000);
 
     setTimeout(function () {
-      // Shot 5: Settle on wide Atlantic view, enable auto-rotate
       globe.pointOfView({ lat: 20, lng: -40, altitude: 2.5 }, 2500);
     }, 10500);
 
     setTimeout(function () {
-      // Enable auto-rotate after sequence completes
       controls.autoRotate = true;
     }, 13500);
+  }
+
+  function startMobileCinematic() {
+    if (cinematicDone) return;
+    cinematicDone = true;
+
+    // Use GSAP timeline for smooth mobile cinematic
+    if (typeof gsap !== 'undefined') {
+      var cam = { lat: CARACAS.lat, lng: CARACAS.lng, altitude: 0.5 };
+      var tl = gsap.timeline();
+
+      // Hold on Venezuela (2s)
+      tl.to(cam, {
+        duration: 2, ease: 'none',
+        onUpdate: function() { globe.pointOfView(cam, 0); }
+      });
+
+      // Pan to Miami (1.5s)
+      tl.to(cam, {
+        lat: 25.76, lng: -80.19, altitude: 1.2,
+        duration: 1.5, ease: 'power2.inOut',
+        onUpdate: function() { globe.pointOfView(cam, 0); }
+      });
+
+      // Hold Miami (1s)
+      tl.to(cam, { duration: 1, ease: 'none' });
+
+      // Pull back to Americas (2s)
+      tl.to(cam, {
+        lat: 15, lng: -60, altitude: 2.0,
+        duration: 2, ease: 'power2.inOut',
+        onUpdate: function() { globe.pointOfView(cam, 0); }
+      });
+
+      // Rotate to Europe (2s)
+      tl.to(cam, {
+        lat: 42, lng: 5, altitude: 2.3,
+        duration: 2, ease: 'power2.inOut',
+        onUpdate: function() { globe.pointOfView(cam, 0); }
+      });
+
+      // Full globe view (2s)
+      tl.to(cam, {
+        lat: 20, lng: -40, altitude: 2.8,
+        duration: 2, ease: 'power2.inOut',
+        onUpdate: function() { globe.pointOfView(cam, 0); }
+      });
+
+      // Enable auto-rotate after
+      tl.call(function() {
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 0.5;
+      });
+    } else {
+      // Fallback if no GSAP on mobile
+      startDesktopCinematic();
+    }
   }
 
   // Trigger cinematic sequence when globe section scrolls into view
@@ -557,15 +605,18 @@
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          startCinematicSequence();
+          if (isMobile) {
+            startMobileCinematic();
+          } else {
+            startDesktopCinematic();
+          }
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.2 });
+    }, { threshold: 0.15 });
     observer.observe(globeSection);
   } else {
-    // Fallback: start after 2s if no IntersectionObserver
-    setTimeout(startCinematicSequence, 2000);
+    setTimeout(isMobile ? startMobileCinematic : startDesktopCinematic, 2000);
   }
 
   // -------------------------------------------------------------------------

@@ -62,9 +62,13 @@
       filter: sepia(0.3) contrast(1.1);
       transition: opacity 0.5s ease, transform 0.5s ease;
     }
-    .guerreros-title-wrap:hover .bolivar-egg {
+    .guerreros-title-wrap:hover .bolivar-egg,
+    .guerreros-title-wrap.touched .bolivar-egg {
       opacity: 0.85;
       transform: translate(-50%, -50%) scale(1.02);
+    }
+    @media (max-width: 768px) {
+      .bolivar-egg { width: 200px; }
     }
 
     /* === Champions poster in closing section === */
@@ -232,7 +236,7 @@
       <div class="lineup-header-wrap">
         <div class="lineup-header-bg" aria-hidden="true"></div>
         <p class="section-label">El Lineup / The Roster</p>
-        <div class="guerreros-title-wrap">
+        <div class="guerreros-title-wrap" onclick="this.classList.toggle('touched')">
           <h2 class="font-display" style="font-size: clamp(3rem, 8vw, 6rem); color: var(--white);">Los Guerreros</h2>
           <img class="bolivar-egg" src="images/HDpqSv3aQAE8VKl.jpeg" alt="" aria-hidden="true" loading="lazy">
         </div>
@@ -562,6 +566,7 @@
         <div class="voces-grid" id="voces-grid">
           <!-- Tweets injected by js/tweets.js -->
         </div>
+        <p class="tweet-scroll-hint ui muted" style="display:none; text-align:center; font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; margin-top:0.5rem; opacity:0.5;">← Desliza para más · Swipe for more →</p>
         <p class="voces-disclaimer font-serif">
           <em>Voces reales de X. Ningún dato personal adicional fue recolectado.</em><br>
           <span style="color: var(--muted)">Real voices from X. No additional personal data was collected.</span>
@@ -740,8 +745,8 @@
       <p class="closing__siempre font-display">VENEZUELA SIEMPRE</p>
 
       <!-- Instagram Reel embed -->
-      <div style="max-width:540px; margin:3rem auto; border-radius:12px; overflow:hidden; border: 1px solid rgba(244,196,48,0.15);">
-        <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/DWAqzk9jGSa/?igsh=MWZsdGM0eWY0dWdlNw==" data-instgrm-version="14" style="background:#07070f; border:0; margin:0; padding:0; width:100%;">
+      <div class="instagram-embed-wrap" style="max-width:540px; width:100%; margin:3rem auto; border-radius:12px; overflow:hidden; border: 1px solid rgba(244,196,48,0.15);">
+        <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/DWAqzk9jGSa/?igsh=MWZsdGM0eWY0dWdlNw==" data-instgrm-version="14" style="background:#07070f; border:0; margin:0; padding:0; width:100%; max-width:100%;">
         </blockquote>
         <script async src="//www.instagram.com/embed.js"></script>
       </div>

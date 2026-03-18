@@ -261,7 +261,7 @@
       'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:50;pointer-events:none;overflow:hidden;';
     document.body.appendChild(container);
 
-    var FLAG_COUNT = isMobile ? 6 : 10;
+    var FLAG_COUNT = isMobile ? 4 : 10;
 
     for (var i = 0; i < FLAG_COUNT; i++) {
       createFlag(container, i, FLAG_COUNT);

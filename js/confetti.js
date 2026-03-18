@@ -10,7 +10,8 @@
 
   var colors = ['#F4C430', '#1a3a8f', '#CF142B', '#FFE066', '#FFFFFF'];
   var confetti = [];
-  var NUM_CONFETTI = 200;
+  var isMobile = window.innerWidth <= 768;
+  var NUM_CONFETTI = isMobile ? 80 : 200;
 
   for (var i = 0; i < NUM_CONFETTI; i++) {
     confetti.push({
