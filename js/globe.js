@@ -588,10 +588,15 @@
         onUpdate: function() { globe.pointOfView(cam, 0); }
       });
 
-      // Enable auto-rotate after
+      // Enable interaction after cinematic completes
       tl.call(function() {
         controls.autoRotate = true;
         controls.autoRotateSpeed = 0.5;
+        // Re-enable touch controls so user can explore
+        controls.enableRotate = true;
+        controls.enableZoom = true;
+        controls.minDistance = 120;
+        controls.maxDistance = 400;
       });
     } else {
       // Fallback if no GSAP on mobile
