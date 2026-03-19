@@ -1,20 +1,33 @@
 const { getSupabase } = require('../../lib/supabase');
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
+// Restrict admin CORS to same-origin only
+function getCorsOrigin(req) {
+  const origin = req.headers.origin || '';
+  const allowed = [process.env.VERCEL_URL, process.env.VERCEL_PROJECT_PRODUCTION_URL]
+    .filter(Boolean)
+    .map(u => u.startsWith('http') ? u : 'https://' + u);
+  if (!origin || origin.includes('localhost') || origin.includes('.vercel.app') || allowed.includes(origin)) {
+    return origin || '*';
+  }
+  return 'null';
+}
+
+const CORS_HEADERS_BASE = {
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, x-admin-password',
 };
 
 module.exports = async function handler(req, res) {
+  const corsHeaders = { ...CORS_HEADERS_BASE, 'Access-Control-Allow-Origin': getCorsOrigin(req) };
+
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
-    res.writeHead(204, CORS_HEADERS);
+    res.writeHead(204, corsHeaders);
     return res.end();
   }
 
   // Set CORS headers on all responses
-  Object.entries(CORS_HEADERS).forEach(([k, v]) => res.setHeader(k, v));
+  Object.entries(corsHeaders).forEach(([k, v]) => res.setHeader(k, v));
 
   // Verify admin password for both GET and POST
   const password = req.headers['x-admin-password'];
