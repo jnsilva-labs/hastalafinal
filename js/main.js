@@ -192,22 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // =========================================================
-  // 12. LATIDO MOMENTS — staggered reveal on timeline
-  // =========================================================
-  document.querySelectorAll('.latido-moment').forEach((moment) => {
-    gsap.from(moment, {
-      scrollTrigger: {
-        trigger: moment,
-        start: 'top 85%',
-        toggleActions: 'play none none none'
-      },
-      y: 30,
-      opacity: 0.3,
-      duration: 0.7,
-      ease: 'power2.out'
-    });
-  });
+  // 12. LATIDO MOMENTS — handled by timeline.js (removed duplicate)
 
   // =========================================================
   // 13. CLOSING SECTION — dramatic entrance
