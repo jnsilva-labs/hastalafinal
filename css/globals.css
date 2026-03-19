@@ -1420,6 +1420,35 @@ a { color: inherit; text-decoration: none; }
   margin-top: 2rem;
 }
 
+.closing__photo-attribution {
+  margin-top: 2rem;
+  text-align: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.closing__photo-attribution p {
+  font-size: 0.6rem;
+  color: var(--muted);
+  opacity: 0.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.8;
+  margin: 0.3rem 0;
+}
+
+.closing__photo-attribution p:first-child {
+  opacity: 0.5;
+}
+
+.closing__photo-attribution p:last-child {
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0.08em;
+  opacity: 0.3;
+}
+
 /* closing marks responsive handled in main responsive section below */
 
 /* ===== PHOTO EDITORIAL TREATMENT ===== */
@@ -2181,6 +2210,10 @@ a { color: inherit; text-decoration: none; }
   }
   .closing__photo-credits {
     font-size: 0.5rem;
+  }
+  .closing__photo-attribution p {
+    font-size: 0.5rem;
+    letter-spacing: 0.08em;
   }
   .closing__poster {
     max-width: 300px;
